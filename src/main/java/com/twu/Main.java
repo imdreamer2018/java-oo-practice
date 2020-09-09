@@ -17,10 +17,12 @@ public class Main {
         Admin admin = new Admin("admin", "password");
         boolean operation = true;
         while (operation) {
+            System.out.println("=============================");
             System.out.println("欢迎来到热搜排行榜，你是？");
             System.out.println("1.用户");
             System.out.println("2.管理员");
             System.out.println("3.退出");
+            System.out.println("=============================");
             Scanner scanner = new Scanner(System.in);
             int userSelect = scanner.nextInt();
             switch (userSelect) {
@@ -37,15 +39,18 @@ public class Main {
                     }
                     boolean userOperationBool = true;
                     while (userOperationBool) {
+                        System.out.println("=============================");
                         System.out.println("你好，" + username + "，你可以：");
                         System.out.println("1.查看热搜排行榜");
                         System.out.println("2.给热搜事件投票");
                         System.out.println("3.购买热搜");
                         System.out.println("4.添加热搜");
                         System.out.println("5.退出");
+                        System.out.println("=============================");
                         int userOperate = scanner.nextInt();
                         switch (userOperate) {
                             case 1 :
+                                System.out.println("热搜排行榜如下所示：");
                                 user.getHotSearchRankings();
                                 break;
                             case 2 :

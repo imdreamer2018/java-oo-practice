@@ -1,6 +1,8 @@
 package com.twu.entity;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class User extends Person{
     public int votes;
@@ -16,17 +18,30 @@ public class User extends Person{
             System.out.println("投票失败！");
             return;
         }
-        if (!Person.findHotSearch(hotSearchName)) {
+        int findHotSearch = Person.findHotSearch(hotSearchName);
+        if (findHotSearch == 0) {
             System.out.println("找不到你需要投票的热搜事件，请重新输入！");
             return;
         }
-
-        for (HotSearch val : hotSearchRankings) {
-            if (val.hotSearchName.equalsIgnoreCase(hotSearchName)) {
-                val.heat += val.heatBase * votes;
-                System.out.println("投票成功！");
-                Collections.sort(hotSearchRankings);
-                break;
+        if (findHotSearch == 1) {
+            for (HotSearch val : commonHotSearchRankings) {
+                if (val.hotSearchName.equalsIgnoreCase(hotSearchName)) {
+                    val.heat += val.heatBase * votes;
+                    System.out.println("投票成功！");
+                    Collections.sort(commonHotSearchRankings);
+                    Person.sortHotSearchRankings();
+                    break;
+                }
+            }
+        } else {
+            for (HotSearch val : purchaseHotSearchRankings) {
+                if (val.hotSearchName.equalsIgnoreCase(hotSearchName)) {
+                    val.heat += val.heatBase * votes;
+                    System.out.println("投票成功！");
+                    Collections.sort(purchaseHotSearchRankings);
+                    Person.sortHotSearchRankings();
+                    break;
+                }
             }
         }
 
@@ -34,7 +49,8 @@ public class User extends Person{
     }
 
     public void purchase(String hotSearchName, Integer purchaseRank, Integer purchasePrice) {
-        if (!Person.findHotSearch(hotSearchName)) {
+        int findHotSearch = Person.findHotSearch(hotSearchName);
+        if (findHotSearch == 0) {
             System.out.println("找不到你需要购买的热搜事件，请重新输入！");
             return;
         }
@@ -46,24 +62,50 @@ public class User extends Person{
             System.out.println("金额输入错误，请重新输入！");
             return;
         }
-        if (hotSearchRankings.get(purchaseRank).purchaseRank != 0) {
-            if (hotSearchRankings.get(purchaseRank).purchasePrice >= purchasePrice) {
-                System.out.println("金额不够，无法购买当前排名热搜！");
-                return;
-            }else {
-                hotSearchRankings.remove(hotSearchRankings.get(purchaseRank));
+        if (!purchaseHotSearchRankings.isEmpty()) {
+            for (HotSearch purchaseHotSearch : purchaseHotSearchRankings) {
+                if (purchaseHotSearch.purchaseRank == purchaseRank && purchaseHotSearch.purchasePrice >= purchasePrice) {
+                    System.out.println("金额不够，无法购买当前排名热搜！");
+                    return;
+                } else if (purchaseHotSearch.purchaseRank == purchaseRank) {
+                    purchaseHotSearchRankings.remove(purchaseHotSearch);
+                    break;
+                }
             }
         }
-        for (HotSearch val : hotSearchRankings) {
-            if (val.hotSearchName.equalsIgnoreCase(hotSearchName)) {
-                val.purchaseRank = purchaseRank;
-                val.purchasePrice += purchasePrice;
-                System.out.println("购买成功！");
-                Collections.sort(hotSearchRankings);
+        if (findHotSearch == 1) {
+            for (HotSearch val : commonHotSearchRankings) {
+                if (val.hotSearchName.equalsIgnoreCase(hotSearchName)) {
+                    if (purchaseRank > purchaseHotSearchRankings.size() + commonHotSearchRankings.size()){
+                        val.purchaseRank = purchaseHotSearchRankings.size() + commonHotSearchRankings.size();
+                    }else
+                        val.purchaseRank = purchaseRank;
+                    val.purchasePrice += purchasePrice;
+                    purchaseHotSearchRankings.add(val);
+                    commonHotSearchRankings.remove(val);
+                    System.out.println("购买成功！");
+                    Collections.sort(commonHotSearchRankings);
+                    Collections.sort(purchaseHotSearchRankings);
+                    sortHotSearchRankings();
+                    break;
+                }
             }
+        } else if (findHotSearch == 2) {
+            for (HotSearch val : purchaseHotSearchRankings) {
+                if (val.hotSearchName.equalsIgnoreCase(hotSearchName)) {
+                    if (purchaseRank > purchaseHotSearchRankings.size() + commonHotSearchRankings.size()){
+                        val.purchaseRank = purchaseHotSearchRankings.size() + commonHotSearchRankings.size();
+                    }else
+                        val.purchaseRank = purchaseRank;
+                    val.purchasePrice += purchasePrice;
+                    System.out.println("购买成功！");
+                    Collections.sort(purchaseHotSearchRankings);
+                    sortHotSearchRankings();
+                    break;
+                }
+            }
+
         }
 
     }
-
-
 }

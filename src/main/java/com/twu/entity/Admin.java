@@ -18,5 +18,6 @@ public class Admin extends Person {
         }
         hotSearch.heatBase = 2;
         hotSearchRankings.add(hotSearch);
+        commonHotSearchRankings.add(hotSearch);
     }
 }
