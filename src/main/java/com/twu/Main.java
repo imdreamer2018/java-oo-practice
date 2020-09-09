@@ -32,7 +32,7 @@ public class Main {
                     if (!users.isEmpty()) {
                         user = users.get(0);
                     }else {
-                        user = new User("username");
+                        user = new User(username);
                         userList.add(user);
                     }
                     boolean userOperationBool = true;
