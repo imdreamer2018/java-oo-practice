@@ -1,8 +1,8 @@
 package com.twu.entity;
 
-import java.util.ArrayList;
+import com.twu.exception.BaseException;
+
 import java.util.Collections;
-import java.util.List;
 
 public class User extends Person{
     public int votes;
@@ -15,13 +15,11 @@ public class User extends Person{
 
     public void voting(String hotSearchName, int votes) {
         if (this.votes < votes) {
-            System.out.println("投票失败！");
-            return;
+            throw new BaseException("投票失败！");
         }
-        int findHotSearch = Person.findHotSearch(hotSearchName);
+        int findHotSearch = this.findHotSearch(hotSearchName);
         if (findHotSearch == 0) {
-            System.out.println("找不到你需要投票的热搜事件，请重新输入！");
-            return;
+            throw new BaseException("找不到你需要投票的热搜事件，请重新输入！");
         }
         if (findHotSearch == 1) {
             for (HotSearch val : commonHotSearchRankings) {
@@ -49,7 +47,7 @@ public class User extends Person{
     }
 
     public void purchase(String hotSearchName, Integer purchaseRank, Integer purchasePrice) {
-        int findHotSearch = Person.findHotSearch(hotSearchName);
+        int findHotSearch = this.findHotSearch(hotSearchName);
         if (findHotSearch == 0) {
             System.out.println("找不到你需要购买的热搜事件，请重新输入！");
             return;

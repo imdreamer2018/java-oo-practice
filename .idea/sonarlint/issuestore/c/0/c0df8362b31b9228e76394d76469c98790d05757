@@ -1,8 +1,2 @@
 
-Usquid:S1444
-"7Make this "public static hotSearchRankings" field final(Ñ¥ØÖ8´Á‘èÆ.
-’"squid:ClassVariableVisibilityCheck
-"]Make hotSearchRankings a static final constant or non-public and provide accessors if needed.(Ñ¥ØÖ8´Á‘èÆ.
 ~"squid:ClassVariableVisibilityCheck"PMake name a static final constant or non-public and provide accessors if needed.( şÍ¾
-;squid:S2386
-"Make this member "protected".(Ñ¥ØÖ8´Á‘èÆ.

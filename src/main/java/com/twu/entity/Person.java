@@ -1,5 +1,7 @@
 package com.twu.entity;
 
+import com.twu.exception.RepeatedHotSearchException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class Person {
         this.name = name;
     }
 
-    static int findHotSearch(String hotSearchName) {
+    public int findHotSearch(String hotSearchName) {
         if (commonHotSearchRankings.stream().anyMatch(hotSearch -> hotSearch.hotSearchName.equals(hotSearchName)))
             return 1;
         else if (purchaseHotSearchRankings.stream().anyMatch(hotSearch -> hotSearch.hotSearchName.equals(hotSearchName)))
@@ -35,11 +37,8 @@ public class Person {
     }
 
     public void addHotSearch(HotSearch hotSearch) {
-        for (HotSearch val : commonHotSearchRankings) {
-            if (val.hotSearchName.equalsIgnoreCase(hotSearch.hotSearchName)) {
-                System.out.println("该热搜已存在，请勿重复提交！");
-                return;
-            }
+        if (findHotSearch(hotSearch.hotSearchName) == 1) {
+            throw new RepeatedHotSearchException("该热搜已存在，请勿重复提交！");
         }
         commonHotSearchRankings.add(hotSearch);
         hotSearchRankings.add(hotSearch);

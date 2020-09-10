@@ -3,6 +3,8 @@ package com.twu;
 import com.twu.entity.Admin;
 import com.twu.entity.HotSearch;
 import com.twu.entity.User;
+import com.twu.exception.BaseException;
+import com.twu.exception.RepeatedHotSearchException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,11 @@ public class Main {
                                 String hotSearchNameByVote = scanner.next();
                                 System.out.println("请输入你要投票的热搜票数：" + "(你目前还有：" + user.votes + ")票");
                                 int votes = scanner.nextInt();
-                                user.voting(hotSearchNameByVote, votes);
+                                try {
+                                    user.voting(hotSearchNameByVote, votes);
+                                } catch (BaseException e) {
+                                    System.out.println(e.getMessage());
+                                }
                                 break;
                             case 3 :
                                 System.out.println("请输入你要购买的热搜名称：");
@@ -72,7 +78,11 @@ public class Main {
                             case 4 :
                                 System.out.println("请输入你要添加的热搜事件的名字：");
                                 String hotSearchName = scanner.next();
-                                user.addHotSearch(new HotSearch(hotSearchName));
+                                try {
+                                    user.addHotSearch(new HotSearch(hotSearchName));
+                                } catch (RepeatedHotSearchException e) {
+                                    System.out.println(e.getMessage());
+                                }
                                 break;
                             case 5 :
                                 userOperationBool = false;

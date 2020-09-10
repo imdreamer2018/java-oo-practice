@@ -3,11 +3,13 @@
  */
 package com.twu;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import com.twu.entity.Admin;
+import com.twu.entity.User;
 
 public class MainTest {
-    @Test public void testAppHasAGreeting() {
 
-    }
+    User user = new User("yangqian");
+    Admin admin = new Admin("admin", "password");
+
+
 }
